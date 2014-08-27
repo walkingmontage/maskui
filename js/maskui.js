@@ -20,9 +20,7 @@
       //message: 'Loading...',
       zIndex: 100,
       css: {
-        position: 'fixed',
-        left: '50%',
-        top: '50%'
+        position: 'fixed'
       },
       overlayCss: {
         backgroundColor: '#000',
@@ -36,15 +34,15 @@
       pos: 'fixed',
       overlayClick: false,
       needOverlay: true,
-      onOpen: null
+      onOpen: null,
+      onClose: null,
+      resetForm: false
     },
 
-    isIE6 = navigator.userAgent.toLowerCase().indexOf('msie 6.0') != -1;
-
-  var maskui = function () {
-  };
+    maskui = function () {};
 
   maskui.queue = [];		//存放弹出层
+
   maskui.queueClear = function () {
     $.each(maskui.queue, function (i, v) {
       v.hide();
@@ -54,9 +52,8 @@
 
   maskui.prototype = {
     open: function (o) {
-      //深度合并 注意这里的extend如果不加第2个参数{} 就会修改defaults
-      var opts = $.extend(true, {}, defaults, o);
-      var _ui, el = opts.elem;
+
+      var _ui, el = o.elem;
 
       if (typeof el === 'string') {
         _ui = $('#' + el);
@@ -64,40 +61,41 @@
         _ui = $(el);
       } else if (typeof el === 'object' && el.selector !== undefined && el.length > 0) {
         _ui = el;
-      } else if (opts.content !== undefined) {
-        _ui = $($.maskUI.config.wrap.format(opts.content));
+      } else if (o.content !== undefined) {
+        _ui = $($.maskUI.config.wrap.format(o.content));
         this.destroy = true;
       } else {
         return false;
       }
 
-      this.ui = _ui;
-      this.css = opts.css;
-      this.overlayCss = opts.overlayCss;
-      this.zIndex = opts.zIndex;
-      this.onClose = opts.onClose;
-      this.resetForm = opts.resetForm || false;
+      o.ui = _ui;
 
-      if ($.isFunction(opts.onOpen)) {
-        opts.onOpen(this);
+      //深度合并 注意这里的extend如果不加第2个参数{} 就会修改defaults
+      $.extend(true, this, defaults, o);
+
+
+      if ($.isFunction(this.onOpen)) {
+        this.onOpen.call(_ui, this);
       }
 
-      if (opts.needOverlay) {
+      if (this.needOverlay) {
         this.createOverlay();
       }
-      this.createContent(opts.pos, opts.overlayClick);
+
+      this.createContent();
     },
 
     alert: function (param, btnValue) {
       this.destroy = true;
+      var html = $.maskUI.config.wrap.format($.maskUI.config.alert);
 
       if(typeof param === 'string'){
         this.open({
-          elem: $($.maskUI.config.alert.format(param, btnValue || '确定'))
+          elem: $(html.format(param, btnValue || '确定'))
         });
       }else if($.isPlainObject(param)){
 
-        param.elem = $($.maskUI.config.alert.format(param.msg, btnValue || '确定'));
+        param.elem = $(html.format(param.msg, btnValue || '确定'));
         param.overlayClick = false;
         this.open(param);
       }
@@ -116,17 +114,15 @@
         });
       };
 
-
-      o.elem = $($.maskUI.config.confirm.format(o.msg, o.className));
+      var html = $.maskUI.config.wrap.format($.maskUI.config.confirm)||'';
+      o.elem = $(html.format(o.msg, o.className));
       o.overlayClick = false;
       this.open(o);
     },
 
     createOverlay: function () {
       var exCSS = {'z-index': this.zIndex};
-      if (isIE6) {
-        exCSS = {'z-index': this.zIndex, 'position': 'absolute', 'width': $(document).width(), 'height': $(document).height()};
-      }
+
       if (maskui.overlay) {
         maskui.overlay.css($.extend({}, this.overlayCss, exCSS)).show();
       } else {
@@ -134,7 +130,8 @@
       }
       maskui.queueClear();
     },
-    createContent: function (pos, bool) {
+
+    createContent: function () {
       var ui = this.ui, _this = this;
 
       maskui.queueClear();
@@ -142,24 +139,49 @@
         ui.appendTo($('body'));
       }
 
-      var _pos = isIE6 ? 'absolute' : pos;
-      var _css = {
-        'margin-left': -1 * Math.floor(ui.outerWidth() / 2) + 'px',
-        'margin-top': -1 * Math.floor(ui.outerHeight() / 2) + 'px',
-        'position': _pos,
-        'z-index': parseInt(this.zIndex, 10) + 1,
-        'display': 'block'
-      };
 
-      //absolute时 控制dialog居中
-      if(_pos === 'absolute'){
-        _css.top = parseInt($(window).scrollTop()) + parseInt($(window).height()/2);
+      var _css,
+        wh = $(window).height(),
+        h = this.ui.outerHeight(),
+        isOverflowing = h > wh;
+
+      //dialog的高度是否超出浏览器高度
+      if(isOverflowing){
+        this.pos = 'absolute';
+      }
+
+      if(this.pos === 'fixed'){
+        _css = {
+          'margin-left': -1 * Math.floor(ui.outerWidth() / 2) + 'px',
+          'margin-top': -1 * Math.floor(ui.outerHeight() / 2) + 'px',
+          'top': '50%',
+          'left': '50%',
+          'position': 'fixed',
+          'z-index': parseInt(this.zIndex, 10) + 1,
+          'display': 'block'
+        }
+      }else if(this.pos === 'absolute'){
+        var top;
+        if(isOverflowing){
+          top = parseInt($(window).scrollTop()) + 10;
+        }else{
+          top = parseInt($(window).scrollTop()) + (wh - h)/2;
+        }
+        _css = {
+          'margin-left': -1 * Math.floor(ui.outerWidth() / 2) + 'px',
+          'top': top,
+          'left': '50%',
+          'position': 'absolute',
+          'z-index': parseInt(this.zIndex, 10) + 1,
+          'display': 'block'
+        }
+
       }
 
       ui.css($.extend({}, this.css, _css));
       maskui.queue.push(ui);
 
-      if (bool) {
+      if (this.overlayClick) {
         $('#maskOverlay').on('click', function () {
           $.maskUI.close.call(ui, _this);
         });
@@ -178,9 +200,9 @@
 
   $.maskUI = {
     config: {
-      wrap: '<section class="maskui_dialog"><div class="dialog_con"><a href="javascript:;" class="maskui_close"></a>{0}</div></section>',
-      alert: '<section class="maskui_dialog"><div class="dialog_con"><a href="javascript:;" class="maskui_close"></a><div class="dialog_alert"><p>{0}</p><p><a href="javascript:;" class="btn_grey_s maskui_close">{1}</a></p></div></div></section>',
-      confirm: '<section class="maskui_dialog"><div class="dialog_con"><a href="javascript:;" class="maskui_close"></a><div class="dialog_alert"><p>{0}</p><p><a href="javascript:;" class="btn_grey_s confirm_ok">确定</a><a href="javascript:;" class="btn_grey_s maskui_close">取消</a></p></div></div></section>'
+      wrap: '<section class="maskui_dialog"><div class="dialog_con"><a href="javascript:;" class="dialog_close"></a>{0}</div></section>',
+      alert: '<div class="dialog_alert"><div>{0}</div><p><a href="javascript:;" class="maskui_close dialog_btn">{1}</a></p></div>',
+      confirm: '<div class="dialog_alert"><div>{0}</div><p><a href="javascript:;" class="confirm_ok dialog_btn">确定</a><a href="javascript:;" class="maskui_close dialog_btn">取消</a></p></div>'
     },
     open: function (o) {
       var m = new maskui();
@@ -198,31 +220,35 @@
       return m;
     },
     close: function (t) {
-      t = t || {};
+
       //t 为jquery对象时做为内部参数使用
       $('#maskOverlay').fadeOut(200).off('click');
 
-      if (t.closeCallback) {
-        t.closeCallback.call(this);
-      }
+      if(t){
+        //this == dialog
+        if (t.closeCallback) {
+          t.closeCallback.call(this);
+        }
 
-      //
-      if (t.onClose) {
-        t.onClose.call(this);
-      }
+        //
+        if (t.onClose) {
+          t.onClose.call(this);
+        }
 
-      if(t.resetForm){
-        var innerForm = this.find('form').eq(0);
-        if(innerForm.length){
-          innerForm[0].reset();
+        if(t.resetForm){
+          var innerForm = this.find('form').eq(0);
+          if(innerForm.length){
+            innerForm[0].reset();
+          }
+        }
+
+        if (t.destroy) {
+          this.remove();
         }
       }
 
-      if (t.destroy) {
-        this.remove();
-      }
 
-      if (this && this.selector) {
+      if (this.selector) {
         this.find('.maskui_close,.maskuiclose, #dialogClose, a.dialog_close').off('click');
       }
       maskui.queueClear();

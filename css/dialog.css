@@ -60,3 +60,6 @@
   background: #f6f6f6 url('');
   text-decoration: none;
 }
+.maskui_dialog .confirm_ok {
+  margin-right: 10px;
+}

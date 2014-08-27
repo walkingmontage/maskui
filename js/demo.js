@@ -1,35 +1,30 @@
 	$(function(){
-//		$.maskUI.config = {
-//			wrap: '<section class="maskui_dialog"><div class="dialog_con"><a href="javascript:;" class="maskui_close"></a>{0}</div></section>',
-//			alert: '<section class="maskui_dialog"><div class="dialog_con"><a href="javascript:;" class="maskui_close"></a><div class="dialog_alert"><p>{0}</p><p><a href="javascript:;" class="btn_grey_s maskui_close">{1}</a></p></div></div></section>',
-//			confirm: '<section class="maskui_dialog"><div class="dialog_con"><a href="javascript:;" class="maskui_close"></a><div class="dialog_alert"><p>{0}</p><p><a href="javascript:;" class="btn_grey_s confirm_ok">确定</a><a href="javascript:;" class="btn_grey_s maskui_close">取消</a></p></div></div></section>'
-//		};
 
 		//点击弹出 已经存在的dialog
 		$('#btn1').on('click', function(e){
-			e.preventDefault();
+			
 			$.maskUI.open({
-				elem: $('#maskuiDialog1'),
-				overlayClick:  true
+				elem: $('#maskuiDialog1')
 			});
 		});
 
 
-		//动态DIALOG
 
 		//这是动态添加的HTML
-		var html = '<h3>这是动态的内容</h3><div>随意放置HTML</div><p><a href="javascript:;" class="maskui_close">确定</a></p>'
-		
 		$('#btn2').on('click', function(e){
-			e.preventDefault();
 			$.maskUI.open({
-				content: html
+				content: '<h3>这是动态的内容</h3><div>随意放置HTML</div><p><a href="javascript:;" class="maskui_close">确定</a></p>'
 			});
 		});
+
+    $('#btn2-2').on('click', function(e){
+      $.maskUI.open({
+        content: '<h3>这是动态的内容</h3><div style="height: 1000px;">随意放置HTML</div><p><a href="javascript:;" class="maskui_close">确定</a></p>'
+      });
+    });
 
 		//alert
 		$('#btn3').on('click', function(){
-			//传入alert的内容
 			$.maskUI.alert('热烈庆祝中华人民共和国');
 		});
 
@@ -40,22 +35,43 @@
 			$.maskUI.confirm({
 				msg: 'Are you sure to delete this item!',
 				callback: function(){
-					alert(this.html())
+					alert('ok');
 				}
 			})
 			
 		});
 
-    var html2 = '<h3>修改个人信息</h3><p class="center_p"><i class="err_p"></i>修改密码成功！</p><p class="t-center"><a href="javascript:;" class="btn_grey_s maskui_close">确定</a></p><p>&nbsp;</p>'
 
     $('#btn5').on('click', function(e){
-      e.preventDefault();
       $.maskUI.open({
-        content: html2,
+        content: '<h1>onOpen</h1><h4>打开dialog之前的回调方法</h4><p class="t-center"><a href="javascript:;" class="dialog_btn maskui_close">确定</a></p><p>&nbsp;</p>',
+        onOpen: function(){
+          alert('before open dialog ！');
+        }
+      });
+    });
+
+    $('#btn6').on('click', function(e){
+      $.maskUI.open({
+        content: '<h1>onClose</h1><h4>关闭dialog时的回调方法</h4><p class="t-center"><a href="javascript:;" class="dialog_btn maskui_close">确定</a></p><p>&nbsp;</p>',
         onClose: function(){
-          alert('will reload page');
+          alert('after close dialog ！');
           window.location.reload();
         }
+      });
+    });
+
+    $('#btn7').on('click', function(e){
+      $.maskUI.open({
+        content: '<div>点击overlay关闭dialog</div><p><a href="javascript:;" class="maskui_close">确定</a></p>',
+        overlayClick: true
+      });
+    });
+
+    $('#btn8').on('click', function(e){
+      $.maskUI.open({
+        content: '<div>点击overlay关闭dialog</div><p><a href="javascript:;" class="maskui_close">确定</a></p>',
+        needOverlay: false
       });
     });
 

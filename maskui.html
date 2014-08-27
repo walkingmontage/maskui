@@ -1,44 +1,81 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<title>我的看准</title>
+  <meta charset="utf-8"/>
+  <title>jQuery maskui plugin</title>
 
-<link rel="stylesheet" href="css/dialog.css" />
+  <link rel="stylesheet" href="css/dialog.css"/>
   <style>
-    *{margin: 0; padding: 0;}
-    body{
-      font: 14px/1.5 Arial,Microsoft Yahei;
+    * {
+      margin: 0;
+      padding: 0;
     }
-    ul{
+
+    body {
+      font: 14px/1.5 Arial, Microsoft Yahei;
+    }
+
+    ul {
       list-style: none;
     }
-    .btn_grey_b{
+
+    .btn_grey_b {
       padding: 5px 10px;
+      width: 150px;
+      margin: 10px;
     }
-    p.list{
-      padding: 30px;
+
+    .demo {
+      height: 2000px;
+      padding-top: 20px;
+    }
+
+    .demo p {
+      padding: 10px;
+    }
+
+    code {
+      background-color: #eee;
+      padding: 10px;
+      font-size: 12px;
+      display: block;
+      margin: 10px 0;
+      font-family: arial, microsoft yahei, sans-serif;
     }
   </style>
 </head>
 
 <body>
-<p class="list">
-	<input type="button" value="静态DIALOG" class="btn_grey_b" id="btn1" />
-	<input type="button" value="动态DIALOG" class="btn_grey_b" id="btn2" />
-	<input type="button" value="ALERT" class="btn_grey_b" id="btn3" />
-	<input type="button" value="CONFIRM" class="btn_grey_b" id="btn4" />
-  <input type="button" value="closeCallback" class="btn_grey_b" id="btn5" />
-</p>
-	
-	<section class="maskui_dialog" id="maskuiDialog1">
-		<div class="dialog_con">
-			<a href="#" class="dialog_close"></a>
-				<h3>这是静态的内容</h3>
-				<div>随意放置任何HTML</div>
-        <p><a class="dialog_btn maskui_close" href="#">确定</a></p>
-		</div>
-	</section>
+<section class="demo">
+  <p>
+    <input type="button" value="open" class="btn_grey_b" id="btn1"/>
+  </p>
+  <p>
+    <input type="button" value="alert" class="btn_grey_b" id="btn3"/>
+    <input type="button" value="confirm" class="btn_grey_b" id="btn4"/>
+  </p>
+  <p>
+    <input type="button" value="动态添加的HTML" class="btn_grey_b" id="btn2"/>
+    <input type="button" value="dialog高度超出" class="btn_grey_b" id="btn2-2"/>
+  </p>
+  <p>
+    <input type="button" value="onOpen" class="btn_grey_b" id="btn5"/>
+    <input type="button" value="onClose" class="btn_grey_b" id="btn6"/>
+  </p>
+  <p>
+    <input type="button" value="点击overlay关闭dialog" class="btn_grey_b" id="btn7"/>
+    <input type="button" value="没有overlay" class="btn_grey_b" id="btn8"/>
+  </p>
+</section>
+
+<section class="maskui_dialog" id="maskuiDialog1">
+  <div class="dialog_con">
+    <a href="#" class="dialog_close"></a>
+    <h3>这是静态的内容</h3>
+    <div>这是已经存在于DOM里的HTML</div>
+    <p><a class="maskui_close dialog_btn" href="#">确定</a></p>
+  </div>
+</section>
 
 <script src="js/jquery-1.11.0.min.js"></script>
 <script src="js/maskui.js"></script>
