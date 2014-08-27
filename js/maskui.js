@@ -36,7 +36,8 @@
       needOverlay: true,
       onOpen: null,
       onClose: null,
-      resetForm: false
+      resetForm: false,
+      destroy: false
     },
 
     maskui = function () {};
@@ -50,20 +51,27 @@
     maskui.queue = [];
   };
 
+  maskui.inQueue = function(){
+    $.each(maskui.queue, function (i, v) {
+      v.hide();
+    });
+    maskui.queue = [];
+  }
+
   maskui.prototype = {
     open: function (o) {
 
       var _ui, el = o.elem;
 
-      if (typeof el === 'string') {
+      if (typeof el === 'string' && !o.content) {
         _ui = $('#' + el);
       } else if (typeof el === 'object' && el.nodeType && el.nodeType == 1) {
         _ui = $(el);
       } else if (typeof el === 'object' && el.selector !== undefined && el.length > 0) {
         _ui = el;
       } else if (o.content !== undefined) {
-        _ui = $($.maskUI.config.wrap.format(o.content));
-        this.destroy = true;
+        _ui = $($.maskUI.config.wrap.format((o.id || ''), o.content));
+        o.destroy = typeof o.destroy === 'undefined' ? true: false;
       } else {
         return false;
       }
@@ -86,16 +94,13 @@
     },
 
     alert: function (param, btnValue) {
-      this.destroy = true;
-      var html = $.maskUI.config.wrap.format($.maskUI.config.alert);
-
       if(typeof param === 'string'){
         this.open({
-          elem: $(html.format(param, btnValue || '确定'))
+          content: $.maskUI.config.alert.format(param, btnValue || '确定')
         });
       }else if($.isPlainObject(param)){
 
-        param.elem = $(html.format(param.msg, btnValue || '确定'));
+        param.content = $.maskUI.config.alert.format(param.msg, btnValue || '确定');
         param.overlayClick = false;
         this.open(param);
       }
@@ -104,7 +109,6 @@
 
     confirm: function (o) {
       var _this = this;
-      this.destroy = true;
       this.createCallback = function () {
         var ui = this;
         ui.on('click', 'a.confirm_ok', function (e) {
@@ -114,8 +118,7 @@
         });
       };
 
-      var html = $.maskUI.config.wrap.format($.maskUI.config.confirm)||'';
-      o.elem = $(html.format(o.msg, o.className));
+      o.content = $.maskUI.config.alert.format(o.msg, o.className);
       o.overlayClick = false;
       this.open(o);
     },
@@ -135,6 +138,9 @@
       var ui = this.ui, _this = this;
 
       maskui.queueClear();
+
+
+
       if (!$.contains(document.body, ui[0])) {
         ui.appendTo($('body'));
       }
@@ -200,9 +206,9 @@
 
   $.maskUI = {
     config: {
-      wrap: '<section class="maskui_dialog"><div class="dialog_con"><a href="javascript:;" class="dialog_close"></a>{0}</div></section>',
-      alert: '<div class="dialog_alert"><div>{0}</div><p><a href="javascript:;" class="maskui_close dialog_btn">{1}</a></p></div>',
-      confirm: '<div class="dialog_alert"><div>{0}</div><p><a href="javascript:;" class="confirm_ok dialog_btn">确定</a><a href="javascript:;" class="maskui_close dialog_btn">取消</a></p></div>'
+      wrap: '<section class="maskui_dialog" {0}><div class="dialog_con"><a href="javascript:;" class="dialog_close"></a>{1}</div></section>',
+      alert: '<div class="dialog_ac"><div>{0}</div><p><a href="javascript:;" class="maskui_close dialog_btn">{1}</a></p></div>',
+      confirm: '<div class="dialog_ac"><div>{0}</div><p><a href="javascript:;" class="confirm_ok dialog_btn">确定</a><a href="javascript:;" class="maskui_close dialog_btn">取消</a></p></div>'
     },
     open: function (o) {
       var m = new maskui();

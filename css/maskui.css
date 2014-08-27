@@ -34,11 +34,11 @@
 .maskui_dialog .dialog_close:hover {
   background-color: #eee;
 }
-.maskui_dialog .dialog_alert {
+.maskui_dialog .dialog_ac {
   padding: 10px 0 10px;
   text-align: center;
 }
-.maskui_dialog .dialog_alert p {
+.maskui_dialog .dialog_ac p {
   margin-top: 20px;
 }
 .maskui_dialog .dialog_btn {
