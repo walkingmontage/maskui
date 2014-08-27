@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>我的看准</title>
+
+<link rel="stylesheet" href="css/dialog.css" />
+  <style>
+    *{margin: 0; padding: 0;}
+    body{
+      font: 14px/1.5 Arial,Microsoft Yahei;
+    }
+    ul{
+      list-style: none;
+    }
+    .btn_grey_b{
+      padding: 5px 10px;
+    }
+    p.list{
+      padding: 30px;
+    }
+  </style>
+</head>
+
+<body>
+<p class="list">
+	<input type="button" value="静态DIALOG" class="btn_grey_b" id="btn1" />
+	<input type="button" value="动态DIALOG" class="btn_grey_b" id="btn2" />
+	<input type="button" value="ALERT" class="btn_grey_b" id="btn3" />
+	<input type="button" value="CONFIRM" class="btn_grey_b" id="btn4" />
+  <input type="button" value="closeCallback" class="btn_grey_b" id="btn5" />
+</p>
+	
+	<section class="maskui_dialog" id="maskuiDialog1">
+		<div class="dialog_con">
+			<a href="#" class="dialog_close"></a>
+				<h3>这是静态的内容</h3>
+				<div>随意放置任何HTML</div>
+        <p><a class="dialog_btn maskui_close" href="#">确定</a></p>
+		</div>
+	</section>
+
+<script src="js/jquery-1.11.0.min.js"></script>
+<script src="js/maskui.js"></script>
+<script src="js/demo.js"></script>
+</body>
+</html>
