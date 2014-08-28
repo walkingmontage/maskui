@@ -13,22 +13,23 @@ A jquery dialog plugin
 
 * $.maskUI.open(options) （自己定制）
     * options [Object]:
-        * `elem:` dialog对象，可以传string(视为id)、DOM对象或jquery对象，不使用$.maskUI.config定义的默认dialog结构   [和content二选一]
-        * `content:` 动态添加一段HTML [和elem二选一]
+        * `elem:` [String/DOM/jQueryObject] dialog对象，传String视为id，不使用config定义的样式   [和content二选一]
 
-        * `id:` 使用content动态添加html时，可以为dialog添加id，配合destroy=false可实现动态添加但关闭后不删除
-        * `css:` Object dialog的css样式, 使用$.fn.css语法
-        * `overlayCss:` Object overlay的css样式， 使用$.fn.css 语法
-        * `pos:` String 定义dialog的position，默认是fixed, 可设置为absolute
-        * `overlayClick:` Boolean 是否点击overlay可以关闭dialog,默认false
-        * `needOverlay:` Boolean 是否需要显示overlay,默认true
-        * `zIndex:` Number overlay的z-index值，默认为100，dialog的z-index为overlay的+1
+        * `content:` 动态添加一段HTML，使用config定义的样式 [和elem二选一]
+        * `id:` [String] content时使用，为dialog添加id，配合destroy=false实现动态添加且关闭后不删除
+
+        * `css:` [Object] dialog的css样式, 使用$.fn.css语法
+        * `overlayCss:` [Object] overlay的css样式， 使用$.fn.css 语法
+        * `pos:` [String] 定义dialog的position，默认是fixed, 可设置为absolute
+        * `overlayClick:` [Boolean] 是否点击overlay可以关闭dialog,默认false
+        * `needOverlay:` [Boolean] 是否需要显示overlay,默认true
+        * `zIndex:` [Number] overlay的z-index值，默认为100，dialog的z-index为overlay的+1
         * `onOpen:` function(_this){} 打开dialog之前触发，this为dialog, _this为maskui实例
         * `onClose:` function(){} 关闭dialog之后触发，this为dialog
-        * `resetForm:` Boolean 重置dialog内的表单
-        * `destroy:` Boolean dialog关闭后是否删除html，默认存在的dialog不删除，动态添加的默认都删除
+        * `resetForm:` [Boolean] 重置dialog内的表单
+        * `destroy:` [Boolean] dialog关闭后是否删除，elem默认不删除，content默认删除
 
-* $.maskUI.alert(options) （简单的alert提示）
+* $.maskUI.alert(options) （简单的alert提示，关闭后dialog自动删除）
     * options（两种方式）:
         * 1. (msg, btnValue)
             * `msg:` String 要alert的文本或html
@@ -39,10 +40,11 @@ A jquery dialog plugin
             * `btnValue:` 同1
 
 
-* $.maskUI.confirm(options) （简单的confirm提示）
+* $.maskUI.confirm(options) （简单的confirm提示，关闭后dialog自动删除）
     * options [Object]:
         * `msg:` String 要confirm的文本或html
         * `callback:` function(){} 点击确定时的回调
+        * `更多参数同$.maskUI.open的options`
 
 
 * $.maskUI.close() 关闭

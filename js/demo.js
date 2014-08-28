@@ -57,7 +57,7 @@
       $.maskUI.open({
         content: '<h1>onOpen</h1><h4>打开dialog之前的回调方法</h4><p class="t-center"><a href="javascript:;" class="dialog_btn maskui_close">确定</a></p><p>&nbsp;</p>',
         onOpen: function(){
-          alert('before open dialog ！');
+          alert('before opening dialog ！');
         }
       });
     });
@@ -66,8 +66,7 @@
       $.maskUI.open({
         content: '<h1>onClose</h1><h4>关闭dialog时的回调方法</h4><p class="t-center"><a href="javascript:;" class="dialog_btn maskui_close">确定</a></p><p>&nbsp;</p>',
         onClose: function(){
-          alert('after close dialog ！');
-          window.location.reload();
+          alert('after closing dialog ！');
         }
       });
     });

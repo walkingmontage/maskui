@@ -107,7 +107,6 @@
       }else if($.isPlainObject(param)){
 
         param.content = $.maskUI.config.alert.format(param.msg, btnValue || '确定');
-        param.overlayClick = false;
         this.open(param);
       }
 
