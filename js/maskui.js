@@ -70,8 +70,14 @@
       } else if (typeof el === 'object' && el.selector !== undefined && el.length > 0) {
         _ui = el;
       } else if (o.content !== undefined) {
-        _ui = $($.maskUI.config.wrap.format((o.id || ''), o.content));
-        o.destroy = typeof o.destroy === 'undefined' ? true: false;
+        var id = o.id;
+        if(id && $('#' + id).length){
+          _ui = $('#' + id);
+        }else{
+          _ui = $($.maskUI.config.wrap.format((id || ''), o.content));
+        }
+
+        o.destroy = typeof o.destroy === 'undefined' ? true: o.destroy;
       } else {
         return false;
       }
@@ -118,7 +124,7 @@
         });
       };
 
-      o.content = $.maskUI.config.alert.format(o.msg, o.className);
+      o.content = $.maskUI.config.confirm.format(o.msg, o.className);
       o.overlayClick = false;
       this.open(o);
     },
@@ -139,12 +145,9 @@
 
       maskui.queueClear();
 
-
-
       if (!$.contains(document.body, ui[0])) {
         ui.appendTo($('body'));
       }
-
 
       var _css,
         wh = $(window).height(),
@@ -206,7 +209,7 @@
 
   $.maskUI = {
     config: {
-      wrap: '<section class="maskui_dialog" {0}><div class="dialog_con"><a href="javascript:;" class="dialog_close"></a>{1}</div></section>',
+      wrap: '<section class="maskui_dialog" id="{0}"><div class="dialog_con"><a href="javascript:;" class="dialog_close"></a>{1}</div></section>',
       alert: '<div class="dialog_ac"><div>{0}</div><p><a href="javascript:;" class="maskui_close dialog_btn">{1}</a></p></div>',
       confirm: '<div class="dialog_ac"><div>{0}</div><p><a href="javascript:;" class="confirm_ok dialog_btn">确定</a><a href="javascript:;" class="maskui_close dialog_btn">取消</a></p></div>'
     },

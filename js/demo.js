@@ -19,12 +19,13 @@
 
     //关闭时不删除
     $('#btn2-2').on('click', function(e){
-      var remainDialog = $.maskUI.open({
-        id: 'remainDialog',
-        content: '<h3>这是动态的内容</h3><div>随意放置HTML</div><p><a href="javascript:;" class="maskui_close">确定</a></p>',
-        destroy: false
-      });
+        $.maskUI.open({
+          content: '<h3>这是动态的内容</h3><div>随意放置HTML</div><p><a href="javascript:;" class="maskui_close">确定</a></p>',
 
+          //id + destroy=false
+          id: 'remainDialog',
+          destroy: false
+        });
     });
 
     $('#btn2-3').on('click', function(e){

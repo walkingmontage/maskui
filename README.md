@@ -16,7 +16,7 @@ A jquery dialog plugin
         * `elem:` dialog对象，可以传string(视为id)、DOM对象或jquery对象，不使用$.maskUI.config定义的默认dialog结构   [和content二选一]
         * `content:` 动态添加一段HTML [和elem二选一]
 
-        * `id:` 使用content动态添加html时，可以为dialog添加id
+        * `id:` 使用content动态添加html时，可以为dialog添加id，配合destroy=false可实现动态添加但关闭后不删除
         * `css:` Object dialog的css样式, 使用$.fn.css语法
         * `overlayCss:` Object overlay的css样式， 使用$.fn.css 语法
         * `pos:` String 定义dialog的position，默认是fixed, 可设置为absolute
@@ -25,7 +25,7 @@ A jquery dialog plugin
         * `zIndex:` Number overlay的z-index值，默认为100，dialog的z-index为overlay的+1
         * `onOpen:` function(_this){} 打开dialog之前触发，this为dialog, _this为maskui实例
         * `onClose:` function(){} 关闭dialog之后触发，this为dialog
-        * `resetForm:` Boolean 调动form.reset方法重置表单
+        * `resetForm:` Boolean 重置dialog内的表单
         * `destroy:` Boolean dialog关闭后是否删除html，默认存在的dialog不删除，动态添加的默认都删除
 
 * $.maskUI.alert(options) （简单的alert提示）
