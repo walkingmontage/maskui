@@ -51,12 +51,9 @@
     maskui.queue = [];
   };
 
-  maskui.inQueue = function(){
-    $.each(maskui.queue, function (i, v) {
-      v.hide();
-    });
-    maskui.queue = [];
-  }
+//  maskui.inQueue = function(){
+//
+//  }
 
   maskui.prototype = {
     open: function (o) {
