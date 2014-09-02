@@ -24,26 +24,26 @@ A jquery dialog plugin
         * `overlayClick:` [Boolean] 是否点击overlay可以关闭dialog,默认false
         * `needOverlay:` [Boolean] 是否需要显示overlay,默认true
         * `zIndex:` [Number] overlay的z-index值，默认为100，dialog的z-index为overlay的+1
-        * `onOpen:` function(_this){} 打开dialog之前触发，this为dialog, _this为maskui实例
-        * `onClose:` function(){} 关闭dialog之后触发，this为dialog
+        * `onOpen:` function(_this){}  打开dialog之前触发，this = $(dialog)， _this为maskui实例
+        * `onClose:` function(_this){}  关闭dialog之后触发，this = $(dialog)， _this为maskui实例
         * `resetForm:` [Boolean] 重置dialog内的表单
         * `destroy:` [Boolean] dialog关闭后是否删除，elem默认不删除，content默认删除
 
 * $.maskUI.alert(options) （简单的alert提示，关闭后dialog自动删除）
     * options（两种方式）:
-        * 1. (msg, btnValue)
-            * `msg:` String 要alert的文本或html
-            * `btnValue:` String alert提示框的按钮，默认为‘确定’
+        * 第一个参数为String. (msg, btnValue)
+            * `msg:` [String] 要alert的文本或html
+            * `btnValue:` [String] alert提示框的按钮，默认为‘确定’
 
-        * 2. (object, btnValue)
+        * 第一个参数为Object. (object, btnValue)
             * `object:` {msg: string, ...}  msg参数同1，还可以传入更多参数，同$.maskUI.open的options
             * `btnValue:` 同1
 
 
 * $.maskUI.confirm(options) （简单的confirm提示，关闭后dialog自动删除）
     * options [Object]:
-        * `msg:` String 要confirm的文本或html
-        * `callback:` function(){} 点击确定时的回调
+        * `msg:` [String]  要confirm的文本或html
+        * `callback:` function(){} 点击确定时的回调, this = $(dialog)
         * `更多参数同$.maskUI.open的options`
 
 

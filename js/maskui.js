@@ -46,7 +46,13 @@
 
   maskui.queueClear = function () {
     $.each(maskui.queue, function (i, v) {
-      v.hide();
+      if(v.destroy){
+        v.ui.remove();
+      }else{
+        v.ui.hide();
+      }
+
+      v = null;
     });
     maskui.queue = [];
   };
@@ -184,7 +190,7 @@
       }
 
       ui.css($.extend({}, this.css, _css));
-      maskui.queue.push(ui);
+      maskui.queue.push(_this);
 
       if (this.overlayClick) {
         $('#maskOverlay').on('click', function () {
@@ -192,7 +198,7 @@
         });
       }
 
-      ui.find('.maskui_close,.maskuiclose, #dialogClose, a.dialog_close').on('click', function (e) {
+      ui.find('.maskui_close, .maskuiclose, #dialogClose, a.dialog_close').on('click', function (e) {
         e.preventDefault();
         $.maskUI.close.call(ui, _this);
       });
@@ -226,18 +232,19 @@
     },
     close: function (t) {
 
-      //t 为jquery对象时做为内部参数使用
+      //t = maskui的实例，此参数作为内部使用
       $('#maskOverlay').fadeOut(200).off('click');
 
-      if(t){
-        //this == dialog
-        if (t.closeCallback) {
-          t.closeCallback.call(this);
-        }
+      if (this.selector) {
+        this.find('.maskui_close, .maskuiclose, #dialogClose, a.dialog_close').off('click');
+      }
+      maskui.queueClear();
 
-        //
+      if(t){
+
+        //this == $(dialog)
         if (t.onClose) {
-          t.onClose.call(this);
+          t.onClose.call(this, t);
         }
 
         if(t.resetForm){
@@ -251,12 +258,6 @@
           this.remove();
         }
       }
-
-
-      if (this.selector) {
-        this.find('.maskui_close,.maskuiclose, #dialogClose, a.dialog_close').off('click');
-      }
-      maskui.queueClear();
     }
   };
 }));

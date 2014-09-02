@@ -8,6 +8,15 @@
 			});
 		});
 
+    //点击弹出 已经存在的dialog
+    $('#btn1-2').on('click', function(e){
+
+      $.maskUI.open({
+        elem: $('#maskuiDialog1'),
+        pos: 'absolute'
+      });
+    });
+
 
 
 		//这是动态添加的HTML
@@ -28,6 +37,7 @@
         });
     });
 
+    //dialog高度超出
     $('#btn2-3').on('click', function(e){
       $.maskUI.open({
         content: '<h3>这是动态的内容</h3><div style="height: 1000px;">随意放置HTML</div><p><a href="javascript:;" class="maskui_close">确定</a></p>'
@@ -52,21 +62,25 @@
 			
 		});
 
-
+    //onOpen
     $('#btn5').on('click', function(e){
       $.maskUI.open({
         content: '<h1>onOpen</h1><h4>打开dialog之前的回调方法</h4><p class="t-center"><a href="javascript:;" class="dialog_btn maskui_close">确定</a></p><p>&nbsp;</p>',
-        onOpen: function(){
+        onOpen: function(_this){
+          this.css('width', '600');
           alert('before opening dialog ！');
+          alert('this为dialog的jquery对象： ' + this.jquery + '\n' + '_this为当前的实例，属性有：' + Object.keys(_this));
         }
       });
     });
 
+    //onClose
     $('#btn6').on('click', function(e){
       $.maskUI.open({
         content: '<h1>onClose</h1><h4>关闭dialog时的回调方法</h4><p class="t-center"><a href="javascript:;" class="dialog_btn maskui_close">确定</a></p><p>&nbsp;</p>',
-        onClose: function(){
+        onClose: function(_this){
           alert('after closing dialog ！');
+          alert('this为dialog的jquery对象： ' + this.jquery + '\n' + '_this为当前的实例，属性有：' + Object.keys(_this));
         }
       });
     });
