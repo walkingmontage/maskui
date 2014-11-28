@@ -17,7 +17,7 @@ A jquery dialog plugin
 
         * `content:` 动态添加一段HTML，使用config定义的样式 [和elem二选一]
         * `id:` [String] content时使用，为dialog添加id，配合destroy=false实现动态添加且关闭后不删除
-        * `class:` [String] content时使用，为dialog添加classNmae
+        * `contentClass:` [String] content时使用，为dialog添加classNmae
 
         * `css:` [Object] dialog的css样式, 使用$.fn.css语法
         * `overlayCss:` [Object] overlay的css样式， 使用$.fn.css 语法
