@@ -27,6 +27,7 @@ A jquery dialog plugin
         * `zIndex:` [Number] overlay的z-index值，默认为100，dialog的z-index为overlay的+1
         * `onOpen:` function(_this){}  打开dialog之前触发，this = $(dialog)， _this为maskui实例
         * `onClose:` function(_this){}  关闭dialog之后触发，this = $(dialog)， _this为maskui实例
+        * `createCallback:` function(){}  打开dialog之后触发，this = $(dialog)
         * `resetForm:` [Boolean] 重置dialog内的表单
         * `destroy:` [Boolean] dialog关闭后是否删除，elem默认不删除，content默认删除
 
