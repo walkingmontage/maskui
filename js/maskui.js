@@ -1,5 +1,6 @@
 /*
- author: montage  date: 2012/08/01
+ author: montage  
+ date: 2012/08/01
  */
 (function (factory) {
   if (typeof define === 'function' && define.amd) {
