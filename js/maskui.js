@@ -73,11 +73,18 @@
       } else if (typeof el === 'object' && el.selector !== undefined && el.length > 0) {
         _ui = el;
       } else if (o.content !== undefined) {
+
+        //给content模式的dialog添加id
         var id = o.id;
         if(id && $('#' + id).length){
           _ui = $('#' + id);
         }else{
           _ui = $($.maskUI.config.wrap.format((id || ''), o.content));
+        }
+
+        //给content模式的dialog添加class
+        if(o.contentClass){
+          _ui.addClass(o.contentClass);
         }
 
         o.destroy = typeof o.destroy === 'undefined' ? true: o.destroy;
