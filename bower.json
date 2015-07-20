@@ -1,0 +1,21 @@
+{
+  "name": "maskui",
+  "version": "1.0.1",
+  "homepage": "https://github.com/walkingmontage/maskui",
+  "authors": [
+    "montage"
+  ],
+  "description": "a jquery dialog plugin",
+  "main": "./js/maskui.js",
+  "keywords": [
+    "dialog"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
